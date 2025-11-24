@@ -1,0 +1,3 @@
+QUERY_PREFIX = "検索クエリ: "
+DOCUMENT_PREFIX = "検索文書: "
+CLASSIFICATION_PREFIX = "トピック: "

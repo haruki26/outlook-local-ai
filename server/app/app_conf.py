@@ -7,3 +7,5 @@ BASE_DIR = Path(__file__).parent.parent
 AI_MODELS_PATH = BASE_DIR / "ai_models"
 
 LOG_DIR = BASE_DIR / "logs"
+
+VECTOR_STORE_PATH = BASE_DIR / "vector_store"

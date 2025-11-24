@@ -28,4 +28,5 @@ class AppResource:
         self.chat_model.load_model()
         self.embedding_model.load_model()
 
+
 app_resource = AppResource()
