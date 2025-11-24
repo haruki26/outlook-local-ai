@@ -82,7 +82,6 @@ class BaseGraph[TState: BaseState, TReturn: GraphReturn](ABC):
 
         Args:
             state (TState): 初期状態.
-            return_response (bool, optional): 最終状態のレスポンスを返すかどうか. Defaults to False.
 
         Returns:
             TReturn | None: 最終状態のレスポンスまたはNone.
