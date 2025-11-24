@@ -25,6 +25,11 @@ module.exports = async (env, options) => {
         dependOn: "react",
       },
       commands: "./src/commands/commands.ts",
+      searchandchat: {
+        import: ["./src/searchandchat/index.tsx", "./src/searchandchat/searchandchat.html"],
+        dependOn: "react",
+      },
+
     },
     output: {
       clean: true,
@@ -65,6 +70,11 @@ module.exports = async (env, options) => {
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
         chunks: ["polyfill", "taskpane", "react"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "searchandchat.html",
+        template: "./src/searchandchat/searchandchat.html", // 実際のHTMLファイルのパス
+        chunks: ["polyfill", "searchandchat", "react"], // 必要なエントリーポイントを指定
       }),
       new CopyWebpackPlugin({
         patterns: [
