@@ -11,6 +11,9 @@ class AppResource:
     _lock: Lock = Lock()
 
     def __init__(self) -> None:
+        if hasattr(self, '_initialized') and self._initialized:
+            return
+        self._initialized = True
         self.chat_model = ChatModel()
         self.embedding_model = EmbeddingModel()
 
