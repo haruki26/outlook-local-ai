@@ -11,6 +11,3 @@ wheels/
 
 # Logs
 logs
-
-# database
-vector_store
