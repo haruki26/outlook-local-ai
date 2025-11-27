@@ -6,6 +6,16 @@ const ChatPage: React.FC = () => {
   const [messages, setMessages] = React.useState<string[]>([]);
   const [input, setInput] = React.useState<string>("");
 
+  // メッセージ表示部分のref
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+
+  // メッセージ追加時にスクロール
+  React.useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const handleSend = () => {
     if (input.trim() === "") return;
     setMessages([...messages, input]);
@@ -20,12 +30,18 @@ const ChatPage: React.FC = () => {
 
   return (
     <div>
-      <div>
+      <div
+        style={{
+          maxHeight: "300px", // 必要に応じて高さ調整
+          overflowY: "auto",
+        }}
+      >
         {messages.map((msg, idx) => (
           <div key={idx} className={styles.message}>
             {msg}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <div className={styles.inputArea}>
         <input
