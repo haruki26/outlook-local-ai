@@ -77,38 +77,6 @@
                             "view": "dashboard"
                         }
                     ]
-                },
-                {
-                    "id": "SearchRuntime",
-                    "type": "general",
-                    "code": {
-                        "page": "https://localhost:3000/search.html"
-                    },
-                    "lifetime": "short",
-                    "actions": [
-                        {
-                        "id": "SearchRuntimeShow",
-                        "type": "openPage",
-                        "pinnable": false,
-                        "view": "dashboard"
-                        }
-                    ]
-                },
-                {
-                    "id": "ChatRuntime",
-                    "type": "general",
-                    "code": {
-                        "page": "https://localhost:3000/chat.html"
-                    },
-                    "lifetime": "short",
-                    "actions": [
-                        {
-                        "id": "ChatRuntimeShow",
-                        "type": "openPage",
-                        "pinnable": false,
-                        "view": "dashboard"
-                        }
-                    ]
                 }
             ],
             "ribbons": [
@@ -161,54 +129,6 @@
                                                 "description": "Opens a task pane."
                                             },
                                             "actionId": "TaskPaneRuntimeShow"
-                                        },
-                                        {
-                                            "id": "searchOpenPaneButton",
-                                            "type": "button",
-                                            "label": "Show Search",
-                                            "icons": [
-                                                {
-                                                "size": 16,
-                                                "url": "https://localhost:3000/assets/icon-16.png"
-                                                },
-                                                {
-                                                "size": 32,
-                                                "url": "https://localhost:3000/assets/icon-32.png"
-                                                },
-                                                {
-                                                "size": 80,
-                                                "url": "https://localhost:3000/assets/icon-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Show Search",
-                                                "description": "Opens the Search pane."
-                                            },
-                                            "actionId": "SearchRuntimeShow"
-                                        },
-                                        {
-                                            "id": "ChatOpenPaneButton",
-                                            "type": "button",
-                                            "label": "Show Chat",
-                                            "icons": [
-                                                {
-                                                "size": 16,
-                                                "url": "https://localhost:3000/assets/icon-16.png"
-                                                },
-                                                {
-                                                "size": 32,
-                                                "url": "https://localhost:3000/assets/icon-32.png"
-                                                },
-                                                {
-                                                "size": 80,
-                                                "url": "https://localhost:3000/assets/icon-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Show Chat",
-                                                "description": "Opens the Chat pane."
-                                            },
-                                            "actionId": "ChatRuntimeShow"
                                         }
                                         
                                     ]
