@@ -6,6 +6,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
     background: "#f5f6fa", // 白強めのグレー
+    overflowX: "hidden",
   },
   sidebar: {
     width: "220px",

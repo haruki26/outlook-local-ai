@@ -28,7 +28,7 @@ const App: React.FC<AppProps> = () => {
   }
 
   return (
-    <div className={styles.root} style={{ overflowX: "hidden" }}>
+    <div className={styles.root}>
       <div className={styles.sidebarFull}>
         {/* navの外側の余白・白い四角形(div)を完全に削除 */}
         <nav className={styles.nav}>
