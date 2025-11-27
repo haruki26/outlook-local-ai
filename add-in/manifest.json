@@ -27,7 +27,8 @@
     },
     "accentColor": "#230201",
     "validDomains": [
-        "contoso.com"
+        "contoso.com",
+        "localhost:3000"
     ],
     "authorization": {
         "permissions": {
@@ -76,34 +77,19 @@
                             "view": "dashboard"
                         }
                     ]
-                },
-                {
-                    "id": "CommandsRuntime",
-                    "type": "general",
-                    "code": {
-                        "page": "https://localhost:3000/commands.html",
-                        "script": "https://localhost:3000/commands.js"
-                    },
-                    "lifetime": "short",
-                    "actions": [
-                        {
-                            "id": "action",
-                            "type": "executeFunction"
-                        }
-                    ]
                 }
             ],
             "ribbons": [
                 {
                     "contexts": [
-                        "mailCompose"
+                        "mailRead"
                     ],
                     "tabs": [
                         {
                             "builtInTabId": "TabDefault",
                             "groups": [
                                 {
-                                    "id": "msgComposeGroup",
+                                    "id": "msgReadGroup",
                                     "label": "Contoso Add-in",
                                     "icons": [
                                         {
@@ -121,7 +107,7 @@
                                     ],
                                     "controls": [
                                         {
-                                            "id": "msgComposeOpenPaneButton",
+                                            "id": "msgReadOpenPaneButton",
                                             "type": "button",
                                             "label": "Show Task Pane",
                                             "icons": [
@@ -143,31 +129,8 @@
                                                 "description": "Opens a task pane."
                                             },
                                             "actionId": "TaskPaneRuntimeShow"
-                                        },
-                                        {
-                                            "id": "ActionButton",
-                                            "type": "button",
-                                            "label": "Perform an action",
-                                            "icons": [
-                                                {
-                                                    "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-16.png"
-                                                },
-                                                {
-                                                    "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-32.png"
-                                                },
-                                                {
-                                                    "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-80.png"
-                                                }
-                                            ],
-                                            "supertip": {
-                                                "title": "Perform an action",
-                                                "description": "Perform an action when clicked."
-                                            },
-                                            "actionId": "action"
                                         }
+                                        
                                     ]
                                 }
                             ]
