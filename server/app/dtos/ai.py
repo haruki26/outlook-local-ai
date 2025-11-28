@@ -1,6 +1,6 @@
-from typing import Literal
-
 from pydantic import BaseModel
+
+from app.services.ai.chat.agent import Role
 
 
 class CreateSummaryDTO(BaseModel):
@@ -12,7 +12,7 @@ class SummaryDTO(BaseModel):
 
 
 class MessageDTO(BaseModel):
-    role: Literal["user", "assistant"]
+    role: Role
     message: str
 
 class ChatDTO(BaseModel):
