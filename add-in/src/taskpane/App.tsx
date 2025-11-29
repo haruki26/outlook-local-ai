@@ -5,6 +5,7 @@ import useChatStyles from "./styles/chat.style";
 import useSearchStyles from "./styles/search.style";
 import ChatPage from "./pages/chat";
 import SearchPage from "./pages/search";
+import { MailBodyProvider } from "./pages/knowledge";
 
 const getPageName = (pathname: string) => {
   if (pathname === "/chat") return "Chat";
@@ -44,16 +45,18 @@ const App: React.FC<AppProps> = () => {
         </nav>
         <div className={styles.pageContent}>
           <Switch>
-            <Route path="/chat">
-              <div className={styles.container}>
-                <ChatPage />
-              </div>
-            </Route>
-            <Route path="/search">
-              <div className={styles.container}>
-                <SearchPage />
-              </div>
-            </Route>
+            <MailBodyProvider>
+              <Route path="/chat">
+                <div className={styles.container}>
+                  <ChatPage />
+                </div>
+              </Route>
+              <Route path="/search">
+                <div className={styles.container}>
+                  <SearchPage />
+                </div>
+              </Route>
+            </MailBodyProvider>
           </Switch>
         </div>
       </div>
