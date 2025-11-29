@@ -51,6 +51,9 @@ const useStyles = makeStyles({
       background: "#e9eaef", // 白強めのグレー
     },
   },
+  activeNavLink: {
+    borderBottom: '2px solid #1976d2', // お好みの色に変更可能
+  },
   main: {
     flex: 1,
     background: "#f5f6fa", // 白強めのグレー

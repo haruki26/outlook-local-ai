@@ -35,10 +35,20 @@ const App: React.FC<AppProps> = () => {
         <nav className={styles.nav}>
           <ul className={styles.navList}>
             <li>
-              <Link className={styles.navLink} to="/chat">Chat</Link>
+              <Link
+                className={`${styles.navLink} ${location.pathname === "/chat" ? styles.activeNavLink : ""}`}
+                to="/chat"
+              >
+                Chat
+              </Link>
             </li>
             <li>
-              <Link className={styles.navLink} to="/search">Search</Link>
+              <Link
+                className={`${styles.navLink} ${location.pathname === "/search" ? styles.activeNavLink : ""}`}
+                to="/search"
+              >
+                Search
+              </Link>
             </li>
             {/* 必要に応じてリンクを追加 */}
           </ul>
