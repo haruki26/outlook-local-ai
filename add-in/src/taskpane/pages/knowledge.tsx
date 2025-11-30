@@ -107,6 +107,10 @@ const KnowledgePage: React.FC = () => {
             追加
           </button>
         </form>
+        {/* 仕切り線を追加 */}
+        <hr className={styles.hr} />
+        {/* ボタンをセンタリング */}
+        <div className={styles.centerArea}></div>
         {/* ここに「ナレッジに追加」ボタンを追加 */}
         <button className={styles.saveButton} onClick={handleUndecidedButton}>
           ナレッジに追加

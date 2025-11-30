@@ -106,6 +106,12 @@ const useKnowledgeStyles = makeStyles({
     boxSizing: "border-box",
     fontSize: "0.95em",
   },
+  // 水平線
+  hr: {
+    margin: "16px 0 -8px 0", // 下マージンを縮める
+    border: "none",
+    borderTop: "1px solid #ccc",
+  },
   // ナレッジに追加
   centerArea: {
     display: "flex",
