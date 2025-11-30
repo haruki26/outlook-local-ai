@@ -1,12 +1,10 @@
 import * as React from "react";
 import useSearchStyles from "../styles/search.style";
-import { useMailBody } from "./knowledge";
 
 const SearchPage: React.FC = () => {
   const styles = useSearchStyles();
   const [query, setQuery] = React.useState<string>("");
   const [results, setResults] = React.useState<string[]>([]);
-  const mailBody = useMailBody();
 
   const handleSearch = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -37,11 +35,6 @@ const SearchPage: React.FC = () => {
           </li>
         ))}
       </ul>
-      {/* 検索結果の下に抽出した本文を表示 */}
-      <div>
-        <h3>抽出した本文</h3>
-        <pre>{mailBody}</pre>
-      </div>
     </div>
   );
 };
