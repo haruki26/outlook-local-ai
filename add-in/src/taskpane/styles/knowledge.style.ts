@@ -106,6 +106,12 @@ const useKnowledgeStyles = makeStyles({
     boxSizing: "border-box",
     fontSize: "0.95em",
   },
+  // ナレッジに追加
+  centerArea: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default useKnowledgeStyles;

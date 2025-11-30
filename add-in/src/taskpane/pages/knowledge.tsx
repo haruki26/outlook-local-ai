@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MailBodyProvider, useMailBody } from "../feature/context";
-import { Tag } from "../types";
+import { Tag, VectorMail } from "../types";
 import useKnowledgeStyles from "../styles/knowledge.style";
 
 const Modal: React.FC<{ open: boolean; onClose: () => void; children: React.ReactNode }> = ({ open, onClose, children }) => {
@@ -47,6 +47,17 @@ const KnowledgePage: React.FC = () => {
     setNewTagName("");
   };
 
+  const handleUndecidedButton = () => {
+    const selectedTags = tags.filter(tag => selectedTagIds.includes(tag.id));
+    const vectorMail: VectorMail = {
+      id: "dummy-id", // 仮のID
+      part: mailBody, // メール本文
+      sectionId: "dummy-section", // 仮のセクションID
+      tag: selectedTags,
+    };
+    console.log("VectorMail（形だけ）:", vectorMail);
+    // ここで裏側に送信する処理を追加予定
+  };
 
   return (
     <div>
@@ -96,6 +107,10 @@ const KnowledgePage: React.FC = () => {
             追加
           </button>
         </form>
+        {/* ここに「ナレッジに追加」ボタンを追加 */}
+        <button className={styles.saveButton} onClick={handleUndecidedButton}>
+          ナレッジに追加
+        </button>
       </div>
     </div>
   );
