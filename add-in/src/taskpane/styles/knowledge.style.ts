@@ -2,6 +2,28 @@ import { makeStyles } from "@fluentui/react-components";
 
 const useKnowledgeStyles = makeStyles({
   // モーダル
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    height: "100%",
+    gap: "8px"
+  },
+  modalContainer: {
+    background: "#fff",
+    padding: "12px", // パディングを12pxに変更
+    borderRadius: "8px",
+    maxWidth: "600px",
+    width: "90%",
+    maxHeight: "80vh",
+    overflowY: "auto",
+    fontSize: "0.9em",
+    position: "relative",
+    margin: "0 12px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px"
+  },
   modalOverlay: {
     position: "fixed",
     top: 0,
@@ -15,16 +37,9 @@ const useKnowledgeStyles = makeStyles({
     justifyContent: "center",
   },
   modalContent: {
-    background: "#fff",
-    padding: "12px",         // パディングを12pxに変更
-    borderRadius: "8px",
-    maxWidth: "600px",
-    width: "90%",
-    maxHeight: "80vh",
-    overflowY: "auto",
-    position: "relative",
-    marginLeft: "12px",      // マージンを12pxに変更
-    marginRight: "12px",     // マージンを12pxに変更
+    width: "100%",
+    whiteSpace: "pre-wrap",
+    overflowWrap: "break-word",
   },
   // ボタン
   openButton: {
@@ -36,6 +51,7 @@ const useKnowledgeStyles = makeStyles({
     padding: "0.5rem 1rem",
     cursor: "pointer",
     boxShadow: "none", // 影を消す
+    width: "100%",
   },
   closeButton: {
     background: "#eee",
@@ -56,7 +72,6 @@ const useKnowledgeStyles = makeStyles({
     padding: "6px 16px",
     cursor: "pointer",
     fontSize: "0.95em",
-    marginTop: "0.5em",
     height: "32px",
   },
   // タグ
@@ -65,8 +80,8 @@ const useKnowledgeStyles = makeStyles({
     color: "#fff",
     border: "none",
     borderRadius: "4px",
-    padding: "0 16px",
-    height: "32px", 
+    padding: "0 8px",
+    height: "32px",
     cursor: "pointer",
     fontSize: "0.95em",
     minWidth: "64px", // 最小幅を設定
@@ -98,20 +113,25 @@ const useKnowledgeStyles = makeStyles({
   tagInputArea: {
     marginTop: "0.5em",
     display: "flex",
+    flexDirection: "row",
     alignItems: "center",
+    width: "100%",
   },
   tagInput: {
     marginRight: "8px",
     padding: "0 16px", // ボタンと同じパディング
-    height: "32px",      // ボタンと同じ高さ
+    height: "32px", // ボタンと同じ高さ
     boxSizing: "border-box",
     fontSize: "0.95em",
+    flex: 1,
+    minWidth: 0,
   },
   // 水平線
   hr: {
-    margin: "16px 0 -8px 0", // 下マージンを縮める
     border: "none",
-    borderTop: "1px solid #ccc",
+    height: "1px",
+    width: "100%",
+    backgroundColor: "#ccc",
   },
   // ナレッジに追加ボタン
   centerArea: {

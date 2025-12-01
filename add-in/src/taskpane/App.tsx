@@ -4,7 +4,6 @@ import useStyles from "./styles/App.styles";
 import ChatPage from "./pages/chat";
 import SearchPage from "./pages/search";
 import Knowledge from "./pages/knowledge";
-import { MailBodyProvider } from "./feature/context";
 
 interface AppProps {
   title: string;
@@ -55,7 +54,6 @@ const App: React.FC<AppProps> = () => {
         </nav>
         <div className={styles.pageContent}>
           <Switch>
-            <MailBodyProvider>
               <Route path="/chat">
                 <div className={styles.container}>
                   <ChatPage />
@@ -71,7 +69,6 @@ const App: React.FC<AppProps> = () => {
                   <Knowledge />
                 </div>
               </Route>
-            </MailBodyProvider>
           </Switch>
         </div>
       </div>

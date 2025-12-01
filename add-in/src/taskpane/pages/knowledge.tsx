@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { MailBodyProvider, useMailBody } from "../feature/context";
 import { Tag, VectorMail } from "../types";
 import useKnowledgeStyles from "../styles/knowledge.style";
+import { fetchMailBody } from "../feature/getMailBody";
 
 const Modal: React.FC<{ open: boolean; onClose: () => void; children: React.ReactNode }> = ({ open, onClose, children }) => {
   const styles = useKnowledgeStyles();
   if (!open) return null;
   return (
     <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        {children}
+      <div className={styles.modalContainer}>
+        <p className={styles.modalContent}>
+          {children}
+        </p>
         <button className={styles.closeButton} onClick={onClose}>閉じる</button>
       </div>
     </div>
@@ -24,7 +26,7 @@ const tagList: Tag[] = [
 ];
 
 const KnowledgePage: React.FC = () => {
-  const mailBody = useMailBody();
+  const [mailBody, setMailBody] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [tags, setTags] = useState<Tag[]>(tagList);
@@ -36,6 +38,13 @@ const KnowledgePage: React.FC = () => {
       prev.includes(id) ? prev.filter(tid => tid !== id) : [...prev, id]
     );
   };
+
+  const handleOpenModal = async () => {
+    if (mailBody === null) {
+      setMailBody(await fetchMailBody())
+    }
+    setOpen(true);
+  }
 
   const handleAddTag = () => {
     if (!newTagName.trim()) return;
@@ -60,14 +69,12 @@ const KnowledgePage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>抽出したメール本文</h2>
-      <button className={styles.openButton} onClick={() => setOpen(true)}>
+    <>
+    <div className={styles.container}>
+      <button className={styles.openButton} onClick={handleOpenModal}>
         メール本文を表示
       </button>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <pre>{mailBody}</pre>
-      </Modal>
+      <hr className={styles.hr} />
       {/* タグ付けスペースをToDoリスト風に表示 */}
       <div className={styles.tagArea}>
         <span className={styles.tagLabel}>タグ付け：</span>
@@ -109,21 +116,17 @@ const KnowledgePage: React.FC = () => {
         </form>
         {/* 仕切り線を追加 */}
         <hr className={styles.hr} />
-        {/* ボタンをセンタリング */}
-        <div className={styles.centerArea}></div>
         {/* ここに「ナレッジに追加」ボタンを追加 */}
         <button className={styles.saveButton} onClick={handleUndecidedButton}>
           ナレッジに追加
         </button>
       </div>
     </div>
+    <Modal open={open} onClose={() => setOpen(false)}>
+      {mailBody}
+    </Modal>
+    </>
   );
 };
 
-const Knowledge: React.FC = () => (
-  <MailBodyProvider>
-    <KnowledgePage />
-  </MailBodyProvider>
-);
-
-export default Knowledge;
+export default KnowledgePage;
