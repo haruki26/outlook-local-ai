@@ -21,7 +21,7 @@ const ChatPage: React.FC = () => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, receivedMessage]);
-  
+
   const sendMessage = async (message: string) => {
     const resp = await fetch("http://localhost:8000/api/ai/chat-stream", {
       method: "POST",
@@ -30,25 +30,29 @@ const ChatPage: React.FC = () => {
       },
       body: JSON.stringify({ messages: [...messages, { role: "user", message: message }] }),
     });
+    if (resp.body === null) {
+      console.error("Response body is null");
+      return;
+    }
     const reader = resp.body.getReader();
-    
+
     let assistantMessage = "";
     while (true) {
       const { done, value } = await reader.read();
       if (done) {
-        setMessages(prev => [...prev, {role: "assistant", message: assistantMessage}]);
+        setMessages((prev) => [...prev, { role: "assistant", message: assistantMessage }]);
         setReceivedMessage("");
         break;
-      };
+      }
       const chunk = new TextDecoder().decode(value);
       assistantMessage += chunk;
-      setReceivedMessage(prev => prev + chunk);
+      setReceivedMessage((prev) => prev + chunk);
     }
-  }
+  };
 
   const handleSend = () => {
     if (input.trim() === "") return;
-    setMessages(prev => [...prev, {role: "user", message: input}]);
+    setMessages((prev) => [...prev, { role: "user", message: input }]);
     sendMessage(input);
     setInput("");
   };
@@ -61,11 +65,7 @@ const ChatPage: React.FC = () => {
             {msg.message}
           </div>
         ))}
-        {receivedMessage !== "" && (
-          <div className={styles.message}>
-            {receivedMessage}
-          </div>
-        )}
+        {receivedMessage !== "" && <div className={styles.message}>{receivedMessage}</div>}
         <div ref={messagesEndRef} />
       </div>
       <form

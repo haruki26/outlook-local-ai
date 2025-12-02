@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Tag, VectorMail } from "../types";
 import useKnowledgeStyles from "../styles/knowledge.style";
 import { fetchMailBody } from "../feature/getMailBody";
+import { getMailItemId } from "../feature/getMailItemId";
+import { apiClient } from "../apiClient";
+import { useFetch } from "../hooks/useFetch";
 
 const Modal: React.FC<{ open: boolean; onClose: () => void; children: React.ReactNode }> = ({
   open,
@@ -22,18 +24,16 @@ const Modal: React.FC<{ open: boolean; onClose: () => void; children: React.Reac
   );
 };
 
-const tagList: Tag[] = [
-  { id: "1", name: "重要" },
-  { id: "2", name: "対応済み" },
-  { id: "3", name: "要確認" },
-  // 必要に応じてタグ追加
-];
-
 const KnowledgePage: React.FC = () => {
-  const [mailBody, setMailBody] = useState<string | null>(null);
+  const {
+    data: tags,
+    isLoading: isTagsLoading,
+    refetch: refetchTags,
+  } = useFetch({ fetchFn: async () => await apiClient.tags.get() });
+  const { data: mailBody, isLoading: isMailBodyLoading } = useFetch({ fetchFn: fetchMailBody });
+
   const [open, setOpen] = useState(false);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
-  const [tags, setTags] = useState<Tag[]>(tagList);
   const [newTagName, setNewTagName] = useState("");
   const styles = useKnowledgeStyles();
 
@@ -43,60 +43,58 @@ const KnowledgePage: React.FC = () => {
     );
   };
 
-  const handleOpenModal = async () => {
-    if (mailBody === null) {
-      setMailBody(await fetchMailBody());
-    }
-    setOpen(true);
-  };
-
-  const handleAddTag = () => {
+  const handleAddTag = async () => {
     if (!newTagName.trim()) return;
-    const newTag: Tag = {
-      id: (tags.length + 1).toString(),
-      name: newTagName.trim(),
-    };
-    setTags([...tags, newTag]);
+    await apiClient.tags.post({ name: newTagName });
+    refetchTags();
     setNewTagName("");
   };
 
-  const handleUndecidedButton = () => {
-    const selectedTags = tags.filter((tag) => selectedTagIds.includes(tag.id));
-    const vectorMail: VectorMail = {
-      id: "dummy-id", // 仮のID
-      part: mailBody, // メール本文
-      sectionId: "dummy-section", // 仮のセクションID
-      tag: selectedTags,
-    };
-    console.log("VectorMail（形だけ）:", vectorMail);
-    // ここで裏側に送信する処理を追加予定
+  const handleUndecidedButton = async () => {
+    const mailItemId = await getMailItemId();
+    if (mailItemId && mailBody) {
+      await apiClient.vectorStore.post({
+        id: mailItemId,
+        mail: mailBody, // メール本文
+        tags: selectedTagIds,
+      });
+    }
   };
 
   return (
     <>
       <div className={styles.container}>
-        <button className={styles.openButton} onClick={handleOpenModal}>
+        <button
+          className={styles.openButton}
+          onClick={() => setOpen(true)}
+          disabled={isMailBodyLoading}
+        >
           メール本文を表示
         </button>
         <hr className={styles.hr} />
         {/* タグ付けスペースをToDoリスト風に表示 */}
         <div className={styles.tagArea}>
           <span className={styles.tagLabel}>タグ付け：</span>
-          <ul className={styles.tagList}>
-            {tags.map((tag) => (
-              <li key={tag.id} className={styles.tagItem}>
-                <label className={styles.tagLabelItem}>
-                  <input
-                    type="checkbox"
-                    checked={selectedTagIds.includes(tag.id)}
-                    onChange={() => handleTagChange(tag.id)}
-                    className={styles.tagCheckbox}
-                  />
-                  <span>{tag.name}</span>
-                </label>
-              </li>
-            ))}
-          </ul>
+          {isTagsLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <ul className={styles.tagList}>
+              {tags !== null &&
+                tags.map((tag) => (
+                  <li key={tag.id} className={styles.tagItem}>
+                    <label className={styles.tagLabelItem}>
+                      <input
+                        type="checkbox"
+                        checked={selectedTagIds.includes(tag.id)}
+                        onChange={() => handleTagChange(tag.id)}
+                        className={styles.tagCheckbox}
+                      />
+                      <span>{tag.name}</span>
+                    </label>
+                  </li>
+                ))}
+            </ul>
+          )}
           <form
             className={styles.tagInputArea}
             onSubmit={(e) => {
@@ -111,7 +109,7 @@ const KnowledgePage: React.FC = () => {
               placeholder="新しいタグ名"
               className={styles.tagInput}
             />
-            <button className={styles.addTagButton} onClick={handleAddTag}>
+            <button type="submit" className={styles.addTagButton}>
               追加
             </button>
           </form>

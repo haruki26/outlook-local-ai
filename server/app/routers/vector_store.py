@@ -2,9 +2,10 @@ import itertools
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends
 from sqlalchemy import Engine
 
+from app.dtos.common import SuccessResponse
 from app.dtos.vector_store import MailDTO, PostMailDTO, SearchDTO
 from app.models import Tag
 from app.services.ai.rag import VectorMail, VectorStore
@@ -14,12 +15,12 @@ from app.services.database.operation import read
 router = APIRouter(prefix="/vector-store", tags=["Vector Store"])
 
 
-@router.post("/")
-def add_mail_to_vector_store(body: PostMailDTO) -> Response:
+@router.post("")
+def add_mail_to_vector_store(body: PostMailDTO) -> SuccessResponse:
     vs = VectorStore()
     mails = VectorMail.from_pure_mail(body.mail)
     vs.add_documents(mails)
-    return Response(status_code=200)
+    return SuccessResponse(message="Mail added successfully")
 
 
 @router.post("/search")

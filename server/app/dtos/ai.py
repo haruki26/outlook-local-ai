@@ -15,5 +15,6 @@ class MessageDTO(BaseModel):
     role: Role
     message: str
 
+
 class ChatDTO(BaseModel):
     messages: list[MessageDTO]
