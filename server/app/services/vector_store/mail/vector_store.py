@@ -24,3 +24,5 @@ class MailVectorStore:
             self.vs.add_documents([self._transform_add(m) for m in mail])
         else:
             self.vs.add_document(self._transform_add(mail))
+            
+    def search(self, query: str, top_k: int = 5) -> list[]
