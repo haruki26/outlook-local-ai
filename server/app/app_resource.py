@@ -21,7 +21,7 @@ class AppResource:
         self._initialized = True
         self.chat_model = ChatModel()
         self.embedding_model = EmbeddingModel()
-        self.chroma_client = PersistentClient(path=VECTOR_STORE_PATH) 
+        self.chroma_client = PersistentClient(VECTOR_STORE_PATH)
 
     def __new__(cls) -> Self:
         with cls._lock:
@@ -30,7 +30,6 @@ class AppResource:
         return cls._instance
 
     def load_models(self) -> None:
-        self.chat_model.load_model()
         self.embedding_model.load_model()
 
 
