@@ -3,13 +3,14 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING
 
-from fastapi import APIRouter, BackgroundTasks, FastAPI
+from fastapi import APIRouter, FastAPI
 from sqlmodel import SQLModel
 from starlette.middleware.cors import CORSMiddleware
 
 from app.app_resource import app_resource
 from app.routers import ai_router, tags_router, vector_store_router
 from app.services.database.engine import get_engine
+from app.services.vector_store.concept import ConceptVectorStore
 from app.utils.logging import get_logger
 
 if TYPE_CHECKING:
@@ -23,6 +24,8 @@ async def lifespan(_: FastAPI) -> AsyncGenerator:
     engine = get_engine()
     try:
         SQLModel.metadata.create_all(engine)
+        app_resource.embedding_model.load_model()
+        ConceptVectorStore().seed()
         yield
     except Exception:
         logger.exception("Error during lifespan")
@@ -43,15 +46,6 @@ routers: list[tuple[str, APIRouter]] = [("/api", ai_router), ("/api", tags_route
 
 for prefix, router in routers:
     app.include_router(router, prefix=prefix)
-
-
-def startup_tasks() -> None:
-    app_resource.load_models()
-
-
-@app.post("/trigger-startup")
-def trigger_startup(background_task: BackgroundTasks) -> None:
-    background_task.add_task(startup_tasks)
 
 
 if __name__ == "__main__":
