@@ -22,7 +22,7 @@ class AddStoreDocument:
 class ResultSearch:
     doc_id: str
     text: str
-    distance: float
+    score: float
     metadata: dict = field(default_factory=dict)
 
 
@@ -57,6 +57,16 @@ class VectorStore:
             embeddings=list(embeddings),  # 型チェッカーに怒られるのでlist関数でラップ
         )
 
+    def seed_documents(self, documents: list[AddStoreDocument]) -> None:
+        with app_resource.embedding_model.use_model() as model:
+            embeddings = model.embed_documents([self._trans_to_document_form(doc.text) for doc in documents])
+        self.collection.upsert(
+            ids=[doc.doc_id for doc in documents],
+            documents=[doc.text for doc in documents],
+            metadatas=[doc.metadata for doc in documents],
+            embeddings=list(embeddings),  # 型チェッカーに怒られるのでlist関数でラップ
+        )
+
     def search(self, query: str, *, top_k: int = 3, where: Where | None = None) -> list[ResultSearch]:
         with app_resource.embedding_model.use_model() as model:
             query_embedding = model.embed_query(self._trans_to_query_form(query))
@@ -80,7 +90,7 @@ class VectorStore:
             ResultSearch(
                 doc_id=ids[i],
                 text=documents[i],
-                distance=distances[i],
+                score=1 - distances[i],
                 metadata=metadatas[i],
             )
             for i in range(len(ids))

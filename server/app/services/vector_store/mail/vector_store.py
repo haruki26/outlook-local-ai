@@ -49,7 +49,7 @@ class MailVectorStore:
                 part=r.text,
                 mail_id=r.metadata["mail_id"],
                 section_id=r.metadata["section_id"],
-                score=r.distance,
+                score=r.score,
             )
             for r in result
         ]
