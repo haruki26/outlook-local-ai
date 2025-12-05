@@ -1,45 +1,12 @@
 import { makeStyles } from "@fluentui/react-components";
 
 const useKnowledgeStyles = makeStyles({
-  // モーダル
   container: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
     height: "100%",
-    gap: "8px",
-  },
-  modalContainer: {
-    background: "#fff",
-    padding: "12px", // パディングを12pxに変更
-    borderRadius: "8px",
-    maxWidth: "600px",
-    width: "90%",
-    maxHeight: "80vh",
-    overflowY: "auto",
-    fontSize: "0.9em",
-    position: "relative",
-    margin: "0 12px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
-  },
-  modalOverlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
-    background: "rgba(0,0,0,0.3)",
-    zIndex: 1000,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalContent: {
-    width: "100%",
-    whiteSpace: "pre-wrap",
-    overflowWrap: "break-word",
+    gap: "0.5rem",
   },
   // ボタン
   openButton: {
@@ -52,17 +19,6 @@ const useKnowledgeStyles = makeStyles({
     cursor: "pointer",
     boxShadow: "none", // 影を消す
     width: "100%",
-  },
-  closeButton: {
-    background: "#eee",
-    border: "none",
-    borderRadius: "4px",
-    padding: "0.5rem 1rem",
-    cursor: "pointer",
-    marginTop: "1em", // メール本文の下に余白を追加
-    display: "block", // 横幅いっぱいに表示（必要なら）
-    marginLeft: "auto",
-    marginRight: "auto",
   },
   saveButton: {
     background: "#1976d2",

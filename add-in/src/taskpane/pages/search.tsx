@@ -21,8 +21,8 @@ const SearchPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <form className={styles.searchBar} onSubmit={handleSearch}>
+    <div className={styles.container}>
+      <form className={styles.searchBox} onSubmit={handleSearch}>
         <input
           className={styles.input}
           type="text"
@@ -37,7 +37,7 @@ const SearchPage: React.FC = () => {
       <ul className={styles.resultList}>
         {results.map((result, idx) => (
           <li key={idx} className={styles.resultItem} onClick={() => openMailItem(result.id)}>
-            {result.part}
+            <span className={styles.resultItemText}>{result.part}</span>
           </li>
         ))}
       </ul>

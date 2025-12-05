@@ -3,25 +3,7 @@ import useKnowledgeStyles from "../styles/knowledge.style";
 import { getMailBody, getMailItemId } from "../taskpane";
 import { apiClient } from "../apiClient";
 import { useFetch } from "../hooks/useFetch";
-
-const Modal: React.FC<{ open: boolean; onClose: () => void; children: React.ReactNode }> = ({
-  open,
-  onClose,
-  children,
-}) => {
-  const styles = useKnowledgeStyles();
-  if (!open) return null;
-  return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContainer}>
-        <p className={styles.modalContent}>{children}</p>
-        <button className={styles.closeButton} onClick={onClose}>
-          閉じる
-        </button>
-      </div>
-    </div>
-  );
-};
+import Modal from "../components/Modal";
 
 const KnowledgePage: React.FC = () => {
   const {

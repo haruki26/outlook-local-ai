@@ -1,25 +1,34 @@
 import { makeStyles } from "@fluentui/react-components";
 
 const useSearchStyles = makeStyles({
-  searchBar: {
+  container: {
     display: "flex",
-    gap: "8px",
-    marginBottom: "16px",
-    width: "100%", // 追加
-    maxWidth: "500px", // 追加: 検索バーの最大幅を制限
-    alignSelf: "center", // 追加: 中央寄せ
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "1rem",
+    padding: "0 0.5rem",
+  },
+  searchBox: {
+    display: "flex",
+    maxWidth: "100%", // 追加
+    alignSelf: "center",
+    alignItems: "center",
+    justifyItems: "center",
+    gap: "0.5rem",
+    backgroundColor: "#fff",
+    borderRadius: "0.7rem",
+    padding: "1rem 1.5rem",
   },
   input: {
     flex: 1,
-    padding: "8px",
-    borderRadius: "4px",
+    padding: "0.6rem",
+    borderRadius: "0.5rem",
     border: "1px solid #ccc",
     background: "#fff",
-    minWidth: 0, // 追加: flexアイテムのはみ出し防止
   },
   searchButton: {
-    padding: "8px 16px",
-    borderRadius: "4px",
+    padding: "0.5rem",
+    borderRadius: "0.5rem",
     background: "#0078d4",
     color: "#fff",
     border: "none",
@@ -28,19 +37,39 @@ const useSearchStyles = makeStyles({
     "&:hover": {
       background: "#005a9e",
     },
+    "&:disabled": {
+      background: "#ccc",
+      color: "#999",
+      cursor: "not-allowed",
+    },
   },
   resultList: {
     listStyle: "none",
-    padding: 0,
-    margin: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "0.5rem",
+    margin: "1rem 0",
+    padding: "0 0.5rem",
   },
   resultItem: {
-    padding: "12px",
-    borderRadius: "6px",
+    maxWidth: "100%",
+    padding: "0.5rem",
+    borderRadius: "0.5rem",
     background: "#e3e7ee",
     border: "none",
-    marginBottom: "8px",
     color: "#333",
+    cursor: "pointer",
+    "&:hover": {
+      background: "#d9e1eb",
+    },
+  },
+  resultItemText: {
+    display: "-webkit-box",
+    "-webkit-box-orient": "vertical",
+    "-webkit-line-clamp": "3",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 });
 

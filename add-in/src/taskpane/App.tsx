@@ -20,19 +20,8 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.sidebarFull}>
-        {/* navの外側の余白・白い四角形(div)を完全に削除 */}
         <nav className={styles.nav}>
           <ul className={styles.navList}>
-            <li>
-              <Link
-                className={`${styles.navLink} 
-                ${location.pathname === "/chat" ? styles.activeNavLink : ""}`}
-                to="/chat"
-              >
-                Chat
-              </Link>
-            </li>
             <li>
               <Link
                 className={`${styles.navLink} 
@@ -56,13 +45,8 @@ const App: React.FC<AppProps> = () => {
         </nav>
         <div className={styles.pageContent}>
           <Switch>
-            <Route path="/chat">
-              <div>
-                <ChatPage />
-              </div>
-            </Route>
             <Route path="/search">
-              <div className={styles.container}>
+              <div>
                 <SearchPage />
               </div>
             </Route>
@@ -73,7 +57,6 @@ const App: React.FC<AppProps> = () => {
             </Route>
           </Switch>
         </div>
-      </div>
     </div>
   );
 };
