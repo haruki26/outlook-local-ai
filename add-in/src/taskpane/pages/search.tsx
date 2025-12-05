@@ -1,23 +1,27 @@
-import * as React from "react";
+import React, { useState } from "react";
 import useSearchStyles from "../styles/search.style";
-import { getMailText } from "../taskpane";
+import { apiClient } from "../apiClient";
+import { VectorMail } from "../types";
+import { openMailItem } from "../taskpane";
 
 const SearchPage: React.FC = () => {
   const styles = useSearchStyles();
-  const [query, setQuery] = React.useState<string>("");
-  const [results, setResults] = React.useState<string[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<VectorMail[]>([]);
 
-  const handleSearch = async (e?: React.FormEvent) => {
-    await getMailText();
-    if (e) e.preventDefault();
-    if (query.trim() === "") return;
-    setResults([`「${query}」の検索結果1`, `「${query}」の検索結果2`]);
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    const res = await apiClient.vectorStore.search.post({ query, tagIds: [] });
+    setResults(res);
   };
 
-  // ...existing code...
   return (
     <div>
-      <h2>メール本文</h2>
       <form className={styles.searchBar} onSubmit={handleSearch}>
         <input
           className={styles.input}
@@ -32,8 +36,8 @@ const SearchPage: React.FC = () => {
       </form>
       <ul className={styles.resultList}>
         {results.map((result, idx) => (
-          <li key={idx} className={styles.resultItem}>
-            {result}
+          <li key={idx} className={styles.resultItem} onClick={() => openMailItem(result.id)}>
+            {result.part}
           </li>
         ))}
       </ul>

@@ -23,3 +23,7 @@ export const getMailItemId = (): string | undefined => {
   }
   return undefined;
 };
+
+export const openMailItem = (itemId: string) => {
+  Office.context.mailbox.displayMessageForm(itemId);
+};
