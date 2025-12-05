@@ -14,11 +14,11 @@ export class TagClient extends BaseAPIClient {
     );
   };
 
-  async get(): Promise<Tag[]> {
+  public async get(): Promise<Tag[]> {
     return await this.fetchAPI("GET", { guard: this.getTagsGuard });
   }
 
-  async post(data: PostTagDTO): Promise<void> {
+  public async post(data: PostTagDTO): Promise<void> {
     await this.fetchAPI("POST", { data });
   }
 }

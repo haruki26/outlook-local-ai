@@ -1,6 +1,6 @@
 import { VectorMail } from "../../types";
 import { BaseAPIClient } from "../shared";
-import { MailDTO, RegistMail, SearchDTO } from "./schema";
+import { MailDTO, RegistMail, RegistMailDTO, Search, SearchDTO } from "./schema";
 
 class SearchClient extends BaseAPIClient {
   constructor() {
@@ -21,8 +21,12 @@ class SearchClient extends BaseAPIClient {
     );
   }
 
-  async post(data: SearchDTO): Promise<VectorMail[]> {
-    const res = await this.fetchAPI("POST", { guard: this.searchDataGuard, data });
+  async post(data: Search): Promise<VectorMail[]> {
+    const data_: SearchDTO = {
+      query: data.query,
+      tag_ids: data.tagIds,
+    };
+    const res = await this.fetchAPI("POST", { guard: this.searchDataGuard, data: data_ });
     return res.map((item) => ({
       id: item.id,
       part: item.mail_part,
@@ -32,14 +36,19 @@ class SearchClient extends BaseAPIClient {
 }
 
 export class VectorStoreClient extends BaseAPIClient {
-  search: SearchClient;
+  public search: SearchClient;
 
   constructor() {
     super("vector-store");
     this.search = new SearchClient();
   }
 
-  async post(data: RegistMail): Promise<void> {
-    await this.fetchAPI("POST", { data });
+  public async post(data: RegistMail): Promise<void> {
+    const data_: RegistMailDTO = {
+      mail: data.mail,
+      id: data.id,
+      tag_ids: data.tagIds,
+    };
+    await this.fetchAPI("POST", { data: data_ });
   }
 }

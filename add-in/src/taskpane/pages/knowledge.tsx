@@ -51,12 +51,12 @@ const KnowledgePage: React.FC = () => {
   };
 
   const handleUndecidedButton = async () => {
-    const mailItemId = await getMailItemId();
+    const mailItemId = getMailItemId();
     if (mailItemId && mailBody) {
       await apiClient.vectorStore.post({
         id: mailItemId,
         mail: mailBody, // メール本文
-        tags: selectedTagIds,
+        tagIds: selectedTagIds,
       });
     }
   };

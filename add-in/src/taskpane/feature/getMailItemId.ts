@@ -1,4 +1,4 @@
-export const getMailItemId = async (): Promise<string | undefined> => {
+export const getMailItemId = (): string | undefined => {
   try {
     const mailItem = Office.context.mailbox.item;
     if (mailItem) {

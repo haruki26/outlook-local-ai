@@ -1,8 +1,12 @@
 interface RegistMail {
   id: string;
   mail: string;
-  tags: string[];
+  tagIds: string[];
 }
+
+type RegistMailDTO = {
+  tag_ids: string[];
+} & Omit<RegistMail, "tagIds">;
 
 interface MailDTO {
   id: string;
@@ -10,9 +14,13 @@ interface MailDTO {
   section_id: number;
 }
 
-interface SearchDTO {
+interface Search {
   query: string;
-  tags: string[];
+  tagIds: string[];
 }
 
-export type { RegistMail, MailDTO, SearchDTO };
+type SearchDTO = {
+  tag_ids: string[];
+} & Omit<Search, "tagIds">;
+
+export type { RegistMail, RegistMailDTO, MailDTO, Search, SearchDTO };

@@ -19,8 +19,7 @@ export async function insertText(text: string) {
 
 export const getMailText = async () => {
   try {
-    const item = Office.context.mailbox.item;
-    item.body.getAsync(Office.CoercionType.Text, (result) => {
+    Office.context.mailbox.item?.body.getAsync(Office.CoercionType.Text, (result) => {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
         console.log("Text Body:", result.value);
       }
