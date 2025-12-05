@@ -11,9 +11,7 @@ if TYPE_CHECKING:
 
 
 class VectorMail(Document):
-    def __init__(
-        self, part: str, mail_id: str, section_id: int, tags: list[Tag] | None = None
-    ) -> None:
+    def __init__(self, part: str, mail_id: str, section_id: int, tags: list[Tag] | None = None) -> None:
         tags_dict = {tag.name: tag.id for tag in tags} if tags is not None else {}
         super().__init__(
             page_content=part,
@@ -45,6 +43,5 @@ class VectorMail(Document):
     @staticmethod
     def from_pure_mail(body: str, mail_id: str, tags: list[Tag] | None = None) -> list[VectorMail]:
         return [
-            VectorMail(part=s, mail_id=mail_id, section_id=i, tags=tags)
-            for i, s in enumerate(splitter(body), start=1)
+            VectorMail(part=s, mail_id=mail_id, section_id=i, tags=tags) for i, s in enumerate(splitter(body), start=1)
         ]
