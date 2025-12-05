@@ -1,30 +1,25 @@
 /* global Office console */
 
-export async function insertText(text: string) {
-  // Write text to the cursor point in the compose surface.
-  try {
-    Office.context.mailbox.item?.body.setSelectedDataAsync(
-      text,
-      { coercionType: Office.CoercionType.Text },
-      (asyncResult: Office.AsyncResult<void>) => {
-        if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-          throw asyncResult.error.message;
-        }
-      }
-    );
-  } catch (error) {
-    console.log("Error: " + error);
-  }
-}
-
-export const getMailText = async () => {
-  try {
+export const getMailBody = (): Promise<string> => {
+  return new Promise((resolve, reject) => {
     Office.context.mailbox.item?.body.getAsync(Office.CoercionType.Text, (result) => {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
-        console.log("Text Body:", result.value);
+        resolve(result.value.replace(/_{5,}/g, ""));
+      } else {
+        reject(result.error);
       }
     });
+  });
+};
+
+export const getMailItemId = (): string | undefined => {
+  try {
+    const mailItem = Office.context.mailbox.item;
+    if (mailItem) {
+      return mailItem.itemId;
+    }
   } catch (error) {
-    console.log("Error: " + error);
+    console.error("Error getting mail item ID:", error);
   }
+  return undefined;
 };

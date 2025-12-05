@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import useKnowledgeStyles from "../styles/knowledge.style";
-import { fetchMailBody } from "../feature/getMailBody";
-import { getMailItemId } from "../feature/getMailItemId";
+import { getMailBody, getMailItemId } from "../taskpane";
 import { apiClient } from "../apiClient";
 import { useFetch } from "../hooks/useFetch";
 
@@ -30,7 +29,7 @@ const KnowledgePage: React.FC = () => {
     isLoading: isTagsLoading,
     refetch: refetchTags,
   } = useFetch({ fetchFn: async () => await apiClient.tags.get() });
-  const { data: mailBody, isLoading: isMailBodyLoading } = useFetch({ fetchFn: fetchMailBody });
+  const { data: mailBody, isLoading: isMailBodyLoading } = useFetch({ fetchFn: getMailBody });
 
   const [open, setOpen] = useState(false);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);

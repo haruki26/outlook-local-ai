@@ -8,8 +8,8 @@ type Search = Omit<z.infer<typeof searchSchema>, "tag_ids"> & {
 };
 
 class SearchClient extends BaseAPIClient {
-  constructor() {
-    super("search");
+  constructor(parent: string) {
+    super(`${parent}/search`);
   }
 
   async post(data: Search): Promise<VectorMail[]> {
@@ -35,8 +35,8 @@ type ConceptSearchResult = Omit<z.infer<typeof conceptSearchResultSchema>, "mail
 };
 
 class SearchWithConceptClient extends BaseAPIClient {
-  constructor() {
-    super("search-with-concept");
+  constructor(parent: string) {
+    super(`${parent}/search-with-concept`);
   }
 
   async post(data: Search): Promise<ConceptSearchResult[]> {
@@ -69,9 +69,10 @@ export class VectorStoreClient extends BaseAPIClient {
   public searchWithConcept: SearchWithConceptClient;
 
   constructor() {
-    super("vector-store");
-    this.search = new SearchClient();
-    this.searchWithConcept = new SearchWithConceptClient();
+    const resource = "vector-store";
+    super(resource);
+    this.search = new SearchClient(resource);
+    this.searchWithConcept = new SearchWithConceptClient(resource);
   }
 
   public async post(data: RegistMail): Promise<void> {
