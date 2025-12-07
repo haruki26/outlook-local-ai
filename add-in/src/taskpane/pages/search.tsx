@@ -5,6 +5,13 @@ import type { Concept, VectorMail } from "../types";
 import { openMailItem } from "../taskpane";
 import Modal from "../components/Modal";
 import { useFetch } from "../hooks/useFetch";
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionItem,
+  AccordionPanel,
+  Switch,
+} from "@fluentui/react-components";
 
 interface ConceptSearchResult {
   concept: Concept;
@@ -61,6 +68,12 @@ const SearchPage: React.FC = () => {
     <>
       <div className={styles.container}>
         <form className={styles.searchContainer} onSubmit={handleSearch}>
+          <Switch
+            label="概念検索"
+            checked={isConceptSearch}
+            onChange={() => setIsConceptSearch((prev) => !prev)}
+            labelPosition="before"
+          />
           <div className={styles.searchBox}>
             <input
               className={styles.input}
@@ -73,29 +86,38 @@ const SearchPage: React.FC = () => {
               検索
             </button>
           </div>
-          <button type="button" onClick={() => setIsConceptSearch((prev) => !prev)}>
-            概念検索
-          </button>
-          {isTagsLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <ul className={styles.tagList}>
-              {tags !== null &&
-                tags.map((tag) => (
-                  <li key={tag.id} className={styles.tagItem}>
-                    <label className={styles.tagLabelItem}>
-                      <input
-                        type="checkbox"
-                        checked={selectedTagIds.includes(tag.id)}
-                        onChange={() => handleTagChange(tag.id)}
-                        className={styles.tagCheckbox}
-                      />
-                      <span>{tag.name}</span>
-                    </label>
-                  </li>
-                ))}
-            </ul>
-          )}
+          <Accordion collapsible className={styles.settingsContainer}>
+            <AccordionItem value="1">
+              <AccordionHeader>検索設定</AccordionHeader>
+              <AccordionPanel className={styles.settingsPanel}>
+                <div className={styles.panelItem}>
+                  <div className={styles.panelItemTitle}>タグ設定</div>
+                  <div className={styles.panelItemContent}>
+                    {isTagsLoading ? (
+                      <div>Loading...</div>
+                    ) : (
+                      <ul className={styles.tagList}>
+                        {tags !== null &&
+                          tags.map((tag) => (
+                            <li key={tag.id} className={styles.tagItem}>
+                              <label className={styles.tagLabelItem}>
+                                <input
+                                  type="checkbox"
+                                  checked={selectedTagIds.includes(tag.id)}
+                                  onChange={() => handleTagChange(tag.id)}
+                                  className={styles.tagCheckbox}
+                                />
+                                <span>{tag.name}</span>
+                              </label>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </form>
         {isLoading && <span className={styles.loadingLabel}>検索中...</span>}
         <ul className={styles.resultList}>

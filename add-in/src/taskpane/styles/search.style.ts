@@ -11,7 +11,7 @@ const useSearchStyles = makeStyles({
   searchContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "start",
     gap: "1rem",
     backgroundColor: "#fff",
     borderRadius: "0.7rem",
@@ -126,6 +126,37 @@ const useSearchStyles = makeStyles({
     fontSize: "0.9em",
     fontWeight: "bold",
   },
+  settingsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    minWidth: "100%",
+  },
+  settingsPanel: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5rem",
+    width: "100%",
+  },
+  panelItem: {
+    minWidth: "100%",
+    display: "flex",
+    alignItems: "start",
+    flexDirection: "column",
+    gap: "0.3rem",
+  },
+  panelItemTitle: {
+    fontWeight: "bold",
+    fontSize: "1em",
+    color: "#333",
+  },
+  panelItemContent: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "0.5rem",
+    alignItems: "center",
+  }
 });
 
 export default useSearchStyles;
