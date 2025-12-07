@@ -1,7 +1,7 @@
 import z from "zod";
 import { VectorMail } from "../../types";
 import { BaseAPIClient } from "../shared";
-import { conceptSearchResultSchema, mailSchema, registMailSchema, searchSchema } from "./schema";
+import { conceptSearchResultSchema, mailSchema, registeredCheckResultSchema, registeredCheckSchema, registMailSchema, searchSchema } from "./schema";
 
 type Search = Omit<z.infer<typeof searchSchema>, "tag_ids"> & {
   tagIds: string[];
@@ -60,6 +60,22 @@ class SearchWithConceptClient extends BaseAPIClient {
   }
 }
 
+class RegisteredCheckClient extends BaseAPIClient {
+  constructor(parent: string) {
+    super(`${parent}/registered-check`);
+  }
+
+  async post(data: { mailId: string }): Promise<boolean> {
+    return (await this.fetchAPI("POST", {
+      responseSchema: registeredCheckResultSchema,
+      requestBodySchema: registeredCheckSchema,
+      data: {
+        mail_id: data.mailId,
+      },
+    })).registered;
+  }
+}
+
 type RegistMail = Omit<z.infer<typeof registMailSchema>, "tag_ids"> & {
   tagIds: string[];
 };
@@ -67,12 +83,14 @@ type RegistMail = Omit<z.infer<typeof registMailSchema>, "tag_ids"> & {
 export class VectorStoreClient extends BaseAPIClient {
   public search: SearchClient;
   public searchWithConcept: SearchWithConceptClient;
+  public registeredCheck: RegisteredCheckClient;
 
   constructor() {
     const resource = "vector-store";
     super(resource);
     this.search = new SearchClient(resource);
     this.searchWithConcept = new SearchWithConceptClient(resource);
+    this.registeredCheck = new RegisteredCheckClient(resource);
   }
 
   public async post(data: RegistMail): Promise<void> {

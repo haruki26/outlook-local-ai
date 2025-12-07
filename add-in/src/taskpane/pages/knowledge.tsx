@@ -6,14 +6,21 @@ import { useFetch } from "../hooks/useFetch";
 import Modal from "../components/Modal";
 
 const KnowledgePage: React.FC = () => {
+  const { data: isRegistered, refetch: refetchRegistered } = useFetch({
+    fetchFn: async () =>
+      await apiClient.vectorStore.registeredCheck.post({
+        mailId: getMailItemId() || "",
+      }),
+  });
+
   const [openMailModal, setOpenMailModal] = useState(false);
   const [openTagModal, setOpenTagModal] = useState(false);
-
-  const [isRegistered, setIsRegistered] = useState(false);
 
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [newTagName, setNewTagName] = useState("");
   const [generatedTags, setGeneratedTags] = useState<string[] | null>(null);
+  
+  const [submitting, setSubmitting] = useState(false);
 
   const {
     data: tags,
@@ -34,12 +41,12 @@ const KnowledgePage: React.FC = () => {
     await apiClient.tags.post({ name: newTag });
     refetchTags();
   };
-  
+
   const handleAddNewTag = async () => {
     await handleAddTag(newTagName);
     setNewTagName("");
   };
-  
+
   const handleAddGeneratedTag = async (generatedTag: string) => {
     await handleAddTag(generatedTag);
     setGeneratedTags((prev) => prev?.filter((tag) => tag !== generatedTag) || []);
@@ -48,12 +55,14 @@ const KnowledgePage: React.FC = () => {
   const handleUndecidedButton = async () => {
     const mailItemId = getMailItemId();
     if (mailItemId && mailBody) {
+      setSubmitting(true);
       await apiClient.vectorStore.post({
         id: mailItemId,
         mail: mailBody, // メール本文
         tagIds: selectedTagIds,
       });
-      setIsRegistered(true);
+      refetchRegistered();
+      setSubmitting(false);
     }
   };
 
@@ -63,7 +72,7 @@ const KnowledgePage: React.FC = () => {
     setGeneratedTags(res.map((tag) => tag.text));
     setOpenTagModal(true);
   };
-  
+
   return (
     <>
       <div className={styles.container}>
@@ -124,7 +133,7 @@ const KnowledgePage: React.FC = () => {
           <button
             className={styles.saveButton}
             onClick={handleUndecidedButton}
-            disabled={isRegistered}
+            disabled={(isRegistered ?? false) || submitting}
           >
             ナレッジに追加
           </button>
@@ -139,7 +148,10 @@ const KnowledgePage: React.FC = () => {
             ? generatedTags.map((tag) => (
                 <li key={tag} className={styles.tagLabelItem}>
                   <span>{tag}</span>
-                  <button onClick={() => handleAddGeneratedTag(tag)} className={styles.addTagButton}>
+                  <button
+                    onClick={() => handleAddGeneratedTag(tag)}
+                    className={styles.addTagButton}
+                  >
                     追加
                   </button>
                 </li>

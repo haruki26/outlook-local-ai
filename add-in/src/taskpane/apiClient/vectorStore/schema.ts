@@ -27,4 +27,20 @@ const conceptSearchResultSchema = z.object({
   mails: z.array(mailSchema),
 });
 
-export { registMailSchema, mailSchema, searchSchema, conceptSchema, conceptSearchResultSchema };
+const registeredCheckSchema = z.object({
+  mail_id: z.string(),
+});
+
+const registeredCheckResultSchema = z.object({
+  registered: z.boolean(),
+});
+
+export {
+  registMailSchema,
+  mailSchema,
+  searchSchema,
+  conceptSchema,
+  conceptSearchResultSchema,
+  registeredCheckSchema,
+  registeredCheckResultSchema,
+};

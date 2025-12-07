@@ -11,10 +11,19 @@ from sqlalchemy import Engine
 from app.app_conf import CONCEPT_WEIGHT, QUERY_WEIGHT
 from app.app_resource import app_resource
 from app.dtos.common import SuccessResponse
-from app.dtos.vector_store import ConceptDTO, ConceptSearchResultDTO, MailDTO, PostMailDTO, SearchDTO
+from app.dtos.vector_store import (
+    ConceptDTO,
+    ConceptSearchResultDTO,
+    MailDTO,
+    PostMailDTO,
+    RegisteredCheckDTO,
+    RegisteredCheckResultDTO,
+    SearchDTO,
+)
 from app.models import Tag
+from app.models._models import RegisteredMailIds
 from app.services.database.engine import get_engine
-from app.services.database.operation import read
+from app.services.database.operation import create, read
 from app.services.vector_store import ConceptVectorStore, MailVectorStore
 from app.services.vector_store.mail import VectorMail
 
@@ -36,11 +45,22 @@ def get_tags(engine: Engine, tag_ids: list[str]) -> list[Tag]:
 
 @router.post("")
 def add_mail_to_vector_store(body: PostMailDTO, engine: Annotated[Engine, Depends(get_engine)]) -> SuccessResponse:
+    if read(engine, RegisteredMailIds, [("mail_id", "==", body.id)]):
+        return SuccessResponse(message="Mail already registered")
     vs = MailVectorStore()
     tags = get_tags(engine, body.tag_ids)
     mails = VectorMail.from_pure_mail(body.mail, body.id, tags)
     vs.add(mails)
+    create(engine, RegisteredMailIds(mail_id=body.id))
     return SuccessResponse(message="Mail added successfully")
+
+
+@router.post("/registered-check")
+def check_mail_registration(
+    body: RegisteredCheckDTO, engine: Annotated[Engine, Depends(get_engine)]
+) -> RegisteredCheckResultDTO:
+    registered_mail = read(engine, RegisteredMailIds, [("mail_id", "==", body.mail_id)])
+    return RegisteredCheckResultDTO(registered=bool(registered_mail))
 
 
 @router.post("/search")
