@@ -156,7 +156,7 @@ const useSearchStyles = makeStyles({
     flexWrap: "wrap",
     gap: "0.5rem",
     alignItems: "center",
-  }
+  },
 });
 
 export default useSearchStyles;

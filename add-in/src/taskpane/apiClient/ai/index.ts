@@ -9,7 +9,7 @@ class Ner extends BaseAPIClient {
   constructor(parent: string) {
     super(`${parent}/ner`);
   }
-  
+
   async post(data: PostNerBody): Promise<NerResponse[]> {
     return await this.fetchAPI("POST", {
       requestBodySchema: postNerSchema,
@@ -19,14 +19,12 @@ class Ner extends BaseAPIClient {
   }
 }
 
-
 export class Ai extends BaseAPIClient {
   ner: Ner;
-  
+
   constructor() {
     const resource = "ai";
     super(resource);
     this.ner = new Ner(resource);
   }
 }
-

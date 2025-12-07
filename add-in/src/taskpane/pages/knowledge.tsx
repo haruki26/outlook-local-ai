@@ -19,7 +19,7 @@ const KnowledgePage: React.FC = () => {
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [newTagName, setNewTagName] = useState("");
   const [generatedTags, setGeneratedTags] = useState<string[] | null>(null);
-  
+
   const [submitting, setSubmitting] = useState(false);
 
   const {

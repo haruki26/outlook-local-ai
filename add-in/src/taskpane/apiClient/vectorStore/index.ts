@@ -1,7 +1,14 @@
 import z from "zod";
 import { VectorMail } from "../../types";
 import { BaseAPIClient } from "../shared";
-import { conceptSearchResultSchema, mailSchema, registeredCheckResultSchema, registeredCheckSchema, registMailSchema, searchSchema } from "./schema";
+import {
+  conceptSearchResultSchema,
+  mailSchema,
+  registeredCheckResultSchema,
+  registeredCheckSchema,
+  registMailSchema,
+  searchSchema,
+} from "./schema";
 
 type Search = Omit<z.infer<typeof searchSchema>, "tag_ids"> & {
   tagIds: string[];
@@ -66,13 +73,15 @@ class RegisteredCheckClient extends BaseAPIClient {
   }
 
   async post(data: { mailId: string }): Promise<boolean> {
-    return (await this.fetchAPI("POST", {
-      responseSchema: registeredCheckResultSchema,
-      requestBodySchema: registeredCheckSchema,
-      data: {
-        mail_id: data.mailId,
-      },
-    })).registered;
+    return (
+      await this.fetchAPI("POST", {
+        responseSchema: registeredCheckResultSchema,
+        requestBodySchema: registeredCheckSchema,
+        data: {
+          mail_id: data.mailId,
+        },
+      })
+    ).registered;
   }
 }
 
