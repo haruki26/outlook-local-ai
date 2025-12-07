@@ -24,7 +24,7 @@ async def lifespan(_: FastAPI) -> AsyncGenerator:
     engine = get_engine()
     try:
         SQLModel.metadata.create_all(engine)
-        app_resource.embedding_model.load_model()
+        app_resource.load_models()
         ConceptVectorStore().seed(engine)
         yield
     except Exception:

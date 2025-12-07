@@ -46,18 +46,13 @@ const useStyles = makeStyles({
   },
 });
 
-
 interface Props {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<Props> = ({
-  open,
-  onClose,
-  children,
-}) => {
+const Modal: React.FC<Props> = ({ open, onClose, children }) => {
   const styles = useStyles();
   if (!open) return null;
   return (

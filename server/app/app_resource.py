@@ -6,7 +6,7 @@ from typing import Self
 from chromadb import PersistentClient
 
 from app.app_conf import VECTOR_STORE_PATH
-from app.services.ai.model import ChatModel, EmbeddingModel
+from app.services.ai.model import ChatModel, EmbeddingModel, NERModel
 
 
 class AppResource:
@@ -19,8 +19,11 @@ class AppResource:
             return
 
         self._initialized = True
+
         self.chat_model = ChatModel()
         self.embedding_model = EmbeddingModel()
+        self.ner_model = NERModel()
+
         self.chroma_client = PersistentClient(VECTOR_STORE_PATH)
 
     def __new__(cls) -> Self:
@@ -31,6 +34,7 @@ class AppResource:
 
     def load_models(self) -> None:
         self.embedding_model.load_model()
+        self.ner_model.load_model()
 
 
 app_resource = AppResource()

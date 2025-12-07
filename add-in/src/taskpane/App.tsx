@@ -20,43 +20,43 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <div className={styles.root}>
-        <nav className={styles.nav}>
-          <ul className={styles.navList}>
-            <li>
-              <Link
-                className={`${styles.navLink} 
+      <nav className={styles.nav}>
+        <ul className={styles.navList}>
+          <li>
+            <Link
+              className={`${styles.navLink} 
                 ${location.pathname === "/search" ? styles.activeNavLink : ""}`}
-                to="/search"
-              >
-                Search
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={`${styles.navLink} 
+              to="/search"
+            >
+              Search
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={`${styles.navLink} 
                 ${location.pathname === "/Knowledge" ? styles.activeNavLink : ""}`}
-                to="/Knowledge"
-              >
-                Knowledge
-              </Link>
-            </li>
-            {/* 必要に応じてリンクを追加 */}
-          </ul>
-        </nav>
-        <div className={styles.pageContent}>
-          <Switch>
-            <Route path="/search">
-              <div>
-                <SearchPage />
-              </div>
-            </Route>
-            <Route path="/knowledge">
-              <div className={styles.container}>
-                <Knowledge />
-              </div>
-            </Route>
-          </Switch>
-        </div>
+              to="/Knowledge"
+            >
+              Knowledge
+            </Link>
+          </li>
+          {/* 必要に応じてリンクを追加 */}
+        </ul>
+      </nav>
+      <div className={styles.pageContent}>
+        <Switch>
+          <Route path="/search">
+            <div>
+              <SearchPage />
+            </div>
+          </Route>
+          <Route path="/knowledge">
+            <div className={styles.container}>
+              <Knowledge />
+            </div>
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 };

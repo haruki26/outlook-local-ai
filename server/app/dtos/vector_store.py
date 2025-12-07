@@ -7,6 +7,14 @@ class PostMailDTO(BaseModel):
     tag_ids: list[str]
 
 
+class RegisteredCheckDTO(BaseModel):
+    mail_id: str
+
+
+class RegisteredCheckResultDTO(BaseModel):
+    registered: bool
+
+
 class MailDTO(BaseModel):
     id: str
     mail_part: str

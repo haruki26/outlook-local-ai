@@ -10,12 +10,14 @@ if TYPE_CHECKING:
 
 
 class Model[TModel](ABC):
+    model: TModel | None = None
+    _lock: Lock
+    _instance: Self | None = None
+
     def __init_subclass__(cls) -> None:
         super().__init_subclass__()
         cls._instance = None
         cls._lock = Lock()
-
-    model: TModel | None = None
 
     def __new__(cls) -> Self:
         with cls._lock:
@@ -27,7 +29,7 @@ class Model[TModel](ABC):
         with self._lock:
             if self.model is None:
                 self.model = self._load_model()
-            return self.model
+        return self.model
 
     @abstractmethod
     def _load_model(self) -> TModel:
@@ -35,7 +37,4 @@ class Model[TModel](ABC):
 
     @contextmanager
     def use_model(self) -> Iterator[TModel]:
-        with self._lock:
-            if self.model is None:
-                self.model = self.load_model()
-            yield self.model
+        yield self.load_model()

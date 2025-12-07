@@ -29,6 +29,10 @@ const useKnowledgeStyles = makeStyles({
     cursor: "pointer",
     fontSize: "0.95em",
     height: "32px",
+    "&:disabled": {
+      opacity: 0.5,
+      cursor: "not-allowed",
+    },
   },
   // タグ
   addTagButton: {
@@ -62,9 +66,7 @@ const useKnowledgeStyles = makeStyles({
   tagLabelItem: {
     display: "flex",
     alignItems: "center",
-  },
-  tagCheckbox: {
-    marginRight: "8px",
+    gap: "0.5rem",
   },
   tagInputArea: {
     marginTop: "0.5em",
@@ -94,6 +96,16 @@ const useKnowledgeStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  generateButton: {
+    background: "#1976d2",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    padding: "6px 16px",
+    cursor: "pointer",
+    fontSize: "0.95em",
+    height: "32px",
   },
 });
 

@@ -5,8 +5,9 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
 from app.app_resource import app_resource
-from app.dtos.ai import ChatDTO, CreateSummaryDTO, MessageDTO, SummaryDTO
+from app.dtos.ai import ChatDTO, CreateSummaryDTO, MessageDTO, NERResponseDTO, PostNERDTO, SummaryDTO
 from app.services.ai.chat.agent import ChatAgent, Role
+from app.services.ai.ner import extract_top_words
 from app.services.ai.summarize.agent import SummarizeAgent
 
 router = APIRouter(prefix="/ai", tags=["AI"])
@@ -42,3 +43,8 @@ def chat_stream(body: ChatDTO) -> StreamingResponse:
         yield from agent.stream({"messages": conv})
 
     return StreamingResponse(stream(), media_type="text/event-stream")
+
+
+@router.post("/ner")
+def ner(body: PostNERDTO, count: int = 3) -> list[NERResponseDTO]:
+    return [NERResponseDTO(text=text) for text in extract_top_words(body.text, count)]

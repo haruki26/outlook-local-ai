@@ -18,3 +18,11 @@ class MessageDTO(BaseModel):
 
 class ChatDTO(BaseModel):
     messages: list[MessageDTO]
+
+
+class PostNERDTO(BaseModel):
+    text: str
+
+
+class NERResponseDTO(BaseModel):
+    text: str
