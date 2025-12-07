@@ -19,20 +19,15 @@ def extract_top_words(text: str, num_words: int = 3) -> list[str]:
         reverse=True,
     )
 
-    top_words: list[str] = []
-    seen_words = set()
+    top_words: set[str] = set()
     for entity in sorted_entities:
         word = entity.get("word")
-        if not word:
+        if word is None or word in top_words:
             continue
-        word_str = str(word)
-        if word_str in seen_words:
-            continue
-        top_words.append(word_str)
-        seen_words.add(word_str)
+        top_words.add(word)
         if len(top_words) >= num_words:
             break
-    return top_words
+    return list(top_words)
 
 
 if __name__ == "__main__":
