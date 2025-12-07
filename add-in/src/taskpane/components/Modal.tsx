@@ -51,7 +51,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-};
+}
 
 const Modal: React.FC<Props> = ({
   open,
