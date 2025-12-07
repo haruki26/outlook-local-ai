@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingLeft: "-3px",
+    paddingLeft: "0",
   },
   nav: {
     padding: "1.2em",
